@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Must Response</title>
     <style>
+        /* General Body Styling */
         body {
             margin: 0;
             padding: 0;
@@ -13,27 +14,23 @@
             justify-content: center;
             align-items: center;
             background-color: black;
-            overflow: hidden;
             font-family: 'Arial', sans-serif;
+            overflow: hidden;
         }
 
+        /* Container Styling */
         .container {
             text-align: center;
             color: white;
-            padding: 0 10px; /* Prevent text from touching screen edges */
         }
 
+        /* Text Animation Styling */
         .text-container {
             font-weight: bold;
-            line-height: 1.5;
             text-transform: uppercase;
             letter-spacing: 2px;
-            visibility: hidden; /* Initially hidden until animation starts */
-            margin-bottom: 30px; /* Space between text and buttons */
-            word-wrap: break-word; /* Ensures long words break into the next line */
-            word-break: break-word; /* Breaks overflowing words */
-            overflow-wrap: anywhere; /* Breaks text to fit in small screens */
-            font-size: 2vw; /* Default font size for desktops */
+            visibility: hidden;
+            margin-bottom: 30px;
         }
 
         .letter {
@@ -61,6 +58,7 @@
             }
         }
 
+        /* Button Styling */
         .button-container {
             display: flex;
             justify-content: center;
@@ -72,7 +70,7 @@
         .button {
             background: linear-gradient(135deg, #ff6a00, #ee0979);
             color: white;
-            font-size: 1.5rem; /* Larger text for buttons */
+            font-size: 1.5rem;
             padding: 12px 30px;
             border: 2px solid transparent;
             cursor: pointer;
@@ -95,28 +93,26 @@
 
         .button.no:hover {
             background: linear-gradient(135deg, #d32f2f, #f44336);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            border: 2px solid white;
         }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
             .text-container {
-                font-size: 5vw; /* Dynamically scale text for tablets */
+                font-size: 5vw;
             }
 
             .button {
-                font-size: 1.2rem; /* Adjust button font size */
+                font-size: 1.2rem;
             }
         }
 
         @media (max-width: 480px) {
             .text-container {
-                font-size: 6vw; /* Dynamically scale text for mobile phones */
+                font-size: 7vw;
             }
 
             .button {
-                font-size: 1rem; /* Further reduce button font size */
+                font-size: 1rem;
             }
         }
     </style>
@@ -125,8 +121,8 @@
     <div class="container">
         <div id="text-container" class="text-container"></div>
         <div class="button-container" id="button-container">
-            <button class="button" id="yes-btn">Yes</button>
-            <button class="button no" id="no-btn">No</button>
+            <button class="button" id="yes-btn" aria-label="Yes">Yes</button>
+            <button class="button no" id="no-btn" aria-label="No">No</button>
         </div>
     </div>
 
@@ -141,53 +137,47 @@
             "Just Kidding. I just wanna say, will you be my coding partner?"
         ];
 
-        function displayText(index, callback) {
-            textContainer.innerHTML = ''; // Clear previous text
-            const text = textSequences[index];
-
+        // Function to animate text letter by letter
+        function animateText(text, callback) {
+            textContainer.innerHTML = '';
             [...text].forEach((char, i) => {
                 const span = document.createElement('span');
-                if (char === ' ') {
-                    span.classList.add('space');
-                } else {
-                    span.textContent = char;
-                    span.classList.add('letter');
-                    span.style.animation = `letterEffect 0.8s ease ${i * 0.1}s forwards`;
-                }
+                span.className = char === ' ' ? 'space' : 'letter';
+                span.textContent = char;
+                span.style.animation = `letterEffect 0.8s ease ${i * 0.1}s forwards`;
                 textContainer.appendChild(span);
             });
 
-            textContainer.style.visibility = 'visible'; // Make text visible after animation starts
+            textContainer.style.visibility = 'visible';
 
-            setTimeout(() => {
-                if (callback) {
-                    callback();
-                }
-            }, text.length * 100 + 2000); // Duration based on the text length and pause
+            // Trigger callback after animation
+            setTimeout(() => callback?.(), text.length * 100 + 1000);
         }
 
+        // Function to display buttons
         function showButtons() {
-            buttonContainer.style.opacity = 1; // Fade in the buttons after text animation
+            buttonContainer.style.opacity = 1;
         }
 
-        function startDisplay() {
-            displayText(0, () => {
-                displayText(1, showButtons); // Show second text and then buttons
+        // Function to start the sequence
+        function startSequence() {
+            animateText(textSequences[0], () => {
+                animateText(textSequences[1], showButtons);
             });
         }
 
+        // Button Actions
         yesButton.addEventListener('click', () => {
-            // Open Telegram app with pre-filled message
             window.location.href = 'https://t.me/Araf4t1?text=Yes!%20I%20want%20to%20be%20your%20coding%20partner';
         });
 
         noButton.addEventListener('click', () => {
-            textContainer.innerHTML = 'দুঃখিত! আমি ভাবতে পারি নাই তুমি যে নো তে ক্লিক করবা । ';
-            textContainer.style.visibility = 'visible'; // Make "No" text visible
-            buttonContainer.style.display = 'none'; // Hide buttons when "No" is clicked
+            textContainer.innerHTML = 'দুঃখিত! আমি ভাবতে পারি নাই তুমি যে নো তে ক্লিক করবা।';
+            buttonContainer.style.display = 'none';
         });
 
-        startDisplay(); // Start displaying the text sequence
+        // Initialize Sequence
+        startSequence();
     </script>
 </body>
 </html>
