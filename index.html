@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impressive Text Animation</title>
+    <title>Must Response</title>
     <style>
         body {
             margin: 0;
@@ -20,6 +20,7 @@
         .container {
             text-align: center;
             color: white;
+            padding: 0 10px; /* Prevent text from touching screen edges */
         }
 
         .text-container {
@@ -29,6 +30,10 @@
             letter-spacing: 2px;
             visibility: hidden; /* Initially hidden until animation starts */
             margin-bottom: 30px; /* Space between text and buttons */
+            word-wrap: break-word; /* Ensures long words break into the next line */
+            word-break: break-word; /* Breaks overflowing words */
+            overflow-wrap: anywhere; /* Breaks text to fit in small screens */
+            font-size: 2vw; /* Default font size for desktops */
         }
 
         .letter {
@@ -56,20 +61,6 @@
             }
         }
 
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            60% {
-                opacity: 1;
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-
         .button-container {
             display: flex;
             justify-content: center;
@@ -78,7 +69,6 @@
             transition: opacity 1s ease-in-out;
         }
 
-        /* New button design */
         .button {
             background: linear-gradient(135deg, #ff6a00, #ee0979);
             color: white;
@@ -90,7 +80,6 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
             text-transform: uppercase;
-            font-family: 'Arial', sans-serif;
         }
 
         .button:hover {
@@ -113,17 +102,17 @@
         /* Responsive Styles */
         @media (max-width: 768px) {
             .text-container {
-                font-size: 5vw;
+                font-size: 5vw; /* Dynamically scale text for tablets */
             }
 
             .button {
-                font-size: 1.1rem; /* Adjust button font size on smaller screens */
+                font-size: 1.2rem; /* Adjust button font size */
             }
         }
 
         @media (max-width: 480px) {
             .text-container {
-                font-size: 7vw;
+                font-size: 6vw; /* Dynamically scale text for mobile phones */
             }
 
             .button {
